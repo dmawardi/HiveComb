@@ -10,6 +10,8 @@ import * as $4 from "./routes/index.tsx";
 import * as $5 from "./routes/projects/[slug].tsx";
 import * as $$0 from "./islands/Countdown.tsx";
 import * as $$1 from "./islands/Counter.tsx";
+import * as $$2 from "./islands/Footer.tsx";
+import * as $$3 from "./islands/Navbar.tsx";
 
 const manifest = {
   routes: {
@@ -23,6 +25,8 @@ const manifest = {
   islands: {
     "./islands/Countdown.tsx": $$0,
     "./islands/Counter.tsx": $$1,
+    "./islands/Footer.tsx": $$2,
+    "./islands/Navbar.tsx": $$3,
   },
   baseUrl: import.meta.url,
 };
