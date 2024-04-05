@@ -21,5 +21,5 @@
             </div>
         </form>
 
-        @include('errors')
+        {{-- @include('errors') --}}
 </x-layout>
