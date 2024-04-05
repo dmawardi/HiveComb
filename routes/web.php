@@ -21,15 +21,15 @@ Route::put('/projects/{project}', [ProjectController::class, 'update'])->name('p
 Route::delete('/projects/{project}', [ProjectController::class, 'destroy'])->name('projects.destroy');
 
 // Inquiries
-// Route::get('/inquiries', [InquiryController::class, 'index'])->name('inquiries.index');
-// // Create
-// Route::get('/inquiries/create', [InquiryController::class, 'create'])->name('inquiries.create');
-// Route::post('/inquiries', [InquiryController::class, 'store'])->name('inquiries.store');
-// // Read
-// Route::get('/inquiries/{inquiry}', [InquiryController::class, 'show'])->name('inquiries.show');
-// // Update
-// Route::get('/inquiries/{inquiry}/edit', [InquiryController::class, 'edit'])->name('inquiries.edit');
-// Route::put('/inquiries/{inquiry}', [InquiryController::class, 'update'])->name('inquiries.update');
-// // Delete
-// Route::delete('/inquiries/{inquiry}', [InquiryController::class, 'destroy'])->name('inquiries.destroy');
+Route::get('/inquiries', [InquiryController::class, 'index'])->name('inquiries.index');
+// Create an inquiry through the contact page
+Route::get('/contact', [InquiryController::class, 'create'])->name('inquiries.create');
+Route::post('/inquiries', [InquiryController::class, 'store'])->name('inquiries.store');
+// Read
+Route::get('/inquiries/{inquiry}', [InquiryController::class, 'show'])->name('inquiries.show');
+// Update
+Route::get('/inquiries/{inquiry}/edit', [InquiryController::class, 'edit'])->name('inquiries.edit');
+Route::put('/inquiries/{inquiry}', [InquiryController::class, 'update'])->name('inquiries.update');
+// Delete
+Route::delete('/inquiries/{inquiry}', [InquiryController::class, 'destroy'])->name('inquiries.destroy');
 
