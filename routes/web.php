@@ -7,7 +7,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
+
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -30,7 +34,7 @@ Route::delete('/projects/{project}', [ProjectController::class, 'destroy'])->nam
 // Inquiries
 Route::get('/inquiries', [InquiryController::class, 'index'])->name('inquiries.index');
 // Create an inquiry through the contact page
-Route::get('/contact', [InquiryController::class, 'create'])->name('inquiries.create');
+Route::get('/contact', [InquiryController::class, 'create'])->name('contact');
 Route::post('/inquiries', [InquiryController::class, 'store'])->name('inquiries.store');
 // Read
 Route::get('/inquiries/{inquiry}', [InquiryController::class, 'show'])->name('inquiries.show');
