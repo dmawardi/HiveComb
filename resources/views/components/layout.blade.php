@@ -12,9 +12,11 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 
-<body>
+<body class="pt-16">
     <x-navbar></x-navbar>
-    {{ $slot }}
+    <main>
+        {{ $slot }}
+    </main>
     <x-footer></x-footer>
 </body>
 
