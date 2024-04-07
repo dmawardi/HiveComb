@@ -1,5 +1,5 @@
 <!-- Footer -->
-<footer class="bg-purple-600">
+<footer class="bg-purple-950">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="py-4 flex justify-between items-center">
             <p class="text-sm text-gray-200">
