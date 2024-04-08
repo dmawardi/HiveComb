@@ -6,7 +6,23 @@ use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    $projects = collect([
+        [
+            'title' => 'Project 1',
+            'description' => 'This is a short description of project 1.',
+        ],
+        [
+            'title' => 'Project 2',
+            'description' => 'This is a short description of project 2.',
+        ],
+        [
+            'title' => 'Project 3',
+            'description' => 'This is a short description of project 3.',
+        ],
+    ]);
+    return view('welcome', [
+        'projects' => [],
+    ]);
 })->name('home');
 
 Route::get('/about', function () {
