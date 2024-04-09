@@ -39,8 +39,12 @@ class InquiryController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email',
-            'phone' => 'required|string|max:255',
+            'phone' => 'nullable|string|max:255',
+            'company_name' => 'nullable|string|max:255',
+            'website' => 'nullable|string|max:255',
+            'type' => 'required|in:general,quote,support,partnership',
             'message' => 'required|string',
+            'status' => 'sometimes|in:unread,read,archived,in progress,resolved,closed',
         ]);
         // Create a new inquiry
         Inquiry::create($request->all());

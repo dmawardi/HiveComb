@@ -1,30 +1,64 @@
 <x-layout>
     <x-slot name="title">Contact Us</x-slot>
-
-    <h1>Contact Us</hh1>
-
-        <form method="POST" action="/inquiries">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold text-center mb-8">Contact Us</h1>
+        <form action="{{ route('inquiries.store') }}" method="POST" class="max-w-3xl mx-auto">
             @csrf
-
-            <div>
-                <label for="name">Name</label>
-                <input type="text" name="name" id="name" value="{{ old('name') }}" required>
+            <div class="mb-4">
+                <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Name</label>
+                <input type="text" name="name" id="name" required
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             </div>
 
-            <div>
-                <label for="email">Email</label>
-                <input type="email" name="email" id="email" value="{{ old('email') }}" required>
+            <div class="mb-4">
+                <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+                <input type="email" name="email" id="email" required
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             </div>
 
-            <div>
-                <label for="message">Message</label>
-                <textarea name="message" id="message" required>{{ old('message') }}</textarea>
+            <div class="mb-4">
+                <label for="phone" class="block text-gray-700 text-sm font-bold mb-2">Phone (Optional)</label>
+                <input type="text" name="phone" id="phone"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             </div>
 
-            <div>
-                <button type="submit">Submit</button>
+            <div class="mb-4">
+                <label for="company_name" class="block text-gray-700 text-sm font-bold mb-2">Company Name
+                    (Optional)</label>
+                <input type="text" name="company_name" id="company_name"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+
+            <div class="mb-4">
+                <label for="website" class="block text-gray-700 text-sm font-bold mb-2">Website (Optional)</label>
+                <input type="text" name="website" id="website"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+
+            <div class="mb-4">
+                <label for="type" class="block text-gray-700 text-sm font-bold mb-2">Inquiry Type</label>
+                <select name="type" id="type" required
+                    class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="general">General</option>
+                    <option value="quote">Quote</option>
+                    <option value="support">Support</option>
+                    <option value="partnership">Partnership</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="message" class="block text-gray-700 text-sm font-bold mb-2">Message</label>
+                <textarea name="message" id="message" required rows="4"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+            </div>
+
+            <div class="flex items-center justify-between">
+                <button type="submit"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    Send Message
+                </button>
             </div>
         </form>
-
-        {{-- @include('errors') --}}
+    </div>
+    {{-- @include('errors') --}}
 </x-layout>
