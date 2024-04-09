@@ -41,14 +41,15 @@ class InquiryController extends Controller
             'email' => 'required|email',
             'phone' => 'nullable|string|max:255',
             'company_name' => 'nullable|string|max:255',
-            'website' => 'nullable|string|max:255',
+            'website' => 'nullable|url|max:255',
             'type' => 'required|in:general,quote,support,partnership',
             'message' => 'required|string',
-            'status' => 'sometimes|in:unread,read,archived,in progress,resolved,closed',
         ]);
+        // Set the status to unread
+        $request->merge(['status' => 'unread']);
         // Create a new inquiry
         Inquiry::create($request->all());
-        return redirect()->route('inquiries.index')->with('success', 'Inquiry created successfully.');;
+        return redirect()->route('contact')->with('success', 'Inquiry created successfully.');;
     }
 
     /**
@@ -83,10 +84,14 @@ class InquiryController extends Controller
     public function update(Request $request, Inquiry $inquiry)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email',
-            'phone' => 'required|string|max:255',
-            'message' => 'required|string',
+            'name' => 'sometimes|required|string|max:255',
+            'email' => 'sometimes|required|email',
+            'phone' => 'nullable|string|max:255',
+            'company_name' => 'nullable|string|max:255',
+            'website' => 'nullable|string|max:255',
+            'type' => 'sometimes|required|in:general,quote,support,partnership',
+            'message' => 'sometimes|required|string',
+            'status' => 'sometimes|in:unread,read,archived,in progress,resolved,closed',
         ]);
         $inquiry->update($request->all());
         return redirect()->route('inquiries.index')->with('success', 'Inquiry updated successfully.');
