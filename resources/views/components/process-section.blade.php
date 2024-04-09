@@ -1,4 +1,4 @@
-<section id="process" class="py-16 bg-amber-500">
+<section id="process" class="py-16 bg-amber-400">
     <div class="container mx-auto px-4 relative z-40">
         <h2 class="text-3xl font-bold text-center text-violet-800">Our Process & Methodology</h2>
         <p class="text-lg text-center text-gray-600 mt-4">From initial concept to final launch, our process ensures
