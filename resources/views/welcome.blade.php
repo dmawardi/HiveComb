@@ -5,5 +5,6 @@
         <x-services-section></x-services-section>
         <x-portfolio :projects="$projects"></x-portfolio>
         <x-process-section></x-process-section>
+        <x-call-to-action></x-call-to-action>
     </x-honeycomb-float>
 </x-layout>
