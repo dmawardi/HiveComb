@@ -3,25 +3,15 @@
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
+use App\Models\Project;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    $projects = collect([
-        [
-            'title' => 'Project 1',
-            'description' => 'This is a short description of project 1.',
-        ],
-        [
-            'title' => 'Project 2',
-            'description' => 'This is a short description of project 2.',
-        ],
-        [
-            'title' => 'Project 3',
-            'description' => 'This is a short description of project 3.',
-        ],
-    ]);
+    // Return last 3 projects
+    $projects = Project::latest()->take(3)->get();
+    // dd($projects);
     return view('welcome', [
-        'projects' => [],
+        'projects' => $projects,
     ]);
 })->name('home');
 

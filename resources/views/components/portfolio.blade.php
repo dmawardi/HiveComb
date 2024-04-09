@@ -13,24 +13,14 @@
                     <div class="whitespace-nowrap transition-transform duration-500"
                         :style="'transform: translateX(-' + (100 * (activeSlide - 1)) + '%)'">
                         <!-- Project1 -->
-                        <div class="inline-block w-full border border-solid border-gray-500 rounded"
-                            x-for="slide in slides" :key="slide">
-                            <img src="/path-to-project-image.jpg" alt="Project Image" class="w-full object-cover"
-                                style="height: 400px;">
-                            <div class="text-center mt-4">
-                                <h3 class="text-xl font-semibold">Project Title</h3>
-                                <p class="text-gray-600 mt-2">A brief overview highlighting the challenge, solution, and
-                                    impact.</p>
-                            </div>
-                        </div>
                         @foreach ($projects as $project)
                             <div class="inline-block w-full border border-solid border-gray-500 rounded"
                                 x-for="slide in slides" :key="slide">
-                                <img src="/path-to-project-image.jpg" alt="Project Image" class="w-full object-cover"
-                                    style="height: 400px;">
+                                <img src="{{ $project->thumbnail_image }}" alt="Project Image"
+                                    class="w-full object-cover" style="height: 400px;">
                                 <div class="text-center mt-4">
-                                    <h3 class="text-xl font-semibold">{{ $project['title'] }}</h3>
-                                    <p class="text-gray-600 mt-2">{{ $project['description'] }}</p>
+                                    <h3 class="text-xl font-semibold">{{ $project->name }}</h3>
+                                    <p class="text-gray-600 mt-2">{{ $project->description }}</p>
                                 </div>
                             </div>
                         @endforeach
