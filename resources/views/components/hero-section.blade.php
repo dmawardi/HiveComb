@@ -1,5 +1,5 @@
 <!-- Hero Section -->
-<div class="block h-screen bg-violet-700 overflow-hidden">
+<div class="block h-screen bg-violet-500 overflow-hidden">
 
     <!-- Content -->
     <div class="flex items-center justify-center h-full">
