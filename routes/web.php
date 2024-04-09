@@ -1,19 +1,13 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Models\Project;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    // Return last 3 projects
-    $projects = Project::latest()->take(3)->get();
-    // dd($projects);
-    return view('welcome', [
-        'projects' => $projects,
-    ]);
-})->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/about', function () {
     return view('about');
