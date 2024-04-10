@@ -1,6 +1,6 @@
 <section id="introduction" class="bg-violet-950 py-16">
 
-    <div class="container mx-auto px-4">
+    <div class="container mx-auto px-4 relative z-40">
         <div class="flex flex-wrap items-center relative z-20">
             <!-- Visual Area: Could be an image or a video -->
             <div class="w-full lg:w-1/2 px-4">
@@ -19,7 +19,8 @@
                 -->
             </div>
             <!-- Content Area -->
-            <div class="w-full lg:w-1/2 px-4 mb-8 lg:mb-0">
+            <div
+                class="w-full lg:w-1/2 px-4 mb-8 lg:mb-0 bg-gray-900 rounded-md shadow-lg border border-solid border-gray-500 py-8 opacity-90">
                 <h1 class="text-3xl lg:text-4xl font-bold text-amber-400 mb-4">
                     Empowering Digital Transformations
                 </h1>
