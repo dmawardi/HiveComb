@@ -1,4 +1,4 @@
-<section id="mission-vision-values" class="py-16 bg-violet-500">
+<section id="mission-vision-values" class="py-16 bg-gradient-to-b from-violet-500 to-gray-900 text-white"">
     <div class="container mx-auto px-4 relative z-40">
         <h2 class="text-3xl font-bold text-center mb-8">Our Mission, Vision, and Values</h2>
 
