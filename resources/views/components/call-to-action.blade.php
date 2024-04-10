@@ -1,4 +1,5 @@
-<section id="cta" class="py-16 bg-purple-600 text-white relative z-40">
+@props(['background' => 'bg-purple-600'])
+<section id="cta" class="py-16 {{ $background }} text-white relative z-40">
     <div class="container mx-auto text-center px-4">
         <h2 class="text-3xl font-bold">Ready to Start Your Project?</h2>
         <p class="text-xl mt-4 mb-8">Join us and let’s build something amazing together. Discover the ease and benefits
