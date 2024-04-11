@@ -17,17 +17,7 @@ Route::get('/dashboard', function () {
 
 
 // Projects
-Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
-// Create
-Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
-Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
-// Read
-Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
-// Update
-Route::get('/projects/{project}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
-Route::put('/projects/{project}', [ProjectController::class, 'update'])->name('projects.update');
-// Delete
-Route::delete('/projects/{project}', [ProjectController::class, 'destroy'])->name('projects.destroy');
+Route::resource('projects', ProjectController::class);
 
 // Inquiries
 Route::get('/inquiries', [InquiryController::class, 'index'])->name('inquiries.index');
