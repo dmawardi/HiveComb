@@ -22,7 +22,7 @@ Route::resource('projects', ProjectController::class);
 // Inquiries
 Route::get('/inquiries', [InquiryController::class, 'index'])->name('inquiries.index');
 // Create an inquiry through the contact page
-Route::get('/contact', [InquiryController::class, 'create'])->name('contact');
+Route::get('/contact', [InquiryController::class, 'create'])->name('inquiries.create');
 Route::post('/inquiries', [InquiryController::class, 'store'])->name('inquiries.store');
 // Read
 Route::get('/inquiries/{inquiry}', [InquiryController::class, 'show'])->name('inquiries.show');
