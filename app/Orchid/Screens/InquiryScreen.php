@@ -3,10 +3,11 @@
 namespace App\Orchid\Screens;
 
 use App\Models\Inquiry;
-use Illuminate\Http\Client\Request;
+use Illuminate\Http\Request;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Fields\Input;
+use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Screen;
 use Orchid\Screen\TD;
 use Orchid\Support\Facades\Layout;
@@ -24,15 +25,30 @@ class InquiryScreen extends Screen
         // Validate form data, save task to database, etc.
         $request->validate([
             'inquiry.name' => 'required|max:255',
+            'inquiry.email' => 'required|email',
+            'inquiry.phone' => 'nullable',
+            'inquiry.company_name' => 'nullable',
+            'inquiry.website' => 'nullable',
+            'inquiry.type' => 'required|in:general,quote,support,partnership',
+            'inquiry.status' => 'required|in:unread,read,archived,in progress,resolved,closed',
+            'inquiry.message' => 'required',
         ]);
 
-        $inquiry = new Inquiry();
-        $inquiry->name = $request->input('inquiry.name');
-        $inquiry->save();
+        $inquiry = Inquiry::create([
+            'name' => $request->input('inquiry.name'),
+            'email' => $request->input('inquiry.email'),
+            'phone' => $request->input('inquiry.phone'),
+            'company_name' => $request->input('inquiry.company_name'),
+            'website' => $request->input('inquiry.website'),
+            'type' => $request->input('inquiry.type'),
+            'status' => $request->input('inquiry.status'),
+            'message' => $request->input('inquiry.message'),
+        ]);
+        dd($inquiry);
     }
 
     /**
-     * @param Task $task
+     * @param Inquiry $inquiry
      *
      * @return void
      */
@@ -119,8 +135,47 @@ class InquiryScreen extends Screen
                 Layout::modal('inquiryModal', Layout::rows([
                     Input::make('inquiry.name')
                         ->title('Name')
-                        ->placeholder('Enter inquiry name')
+                        ->placeholder('Enter name for inquirer')
                         ->help('The name of the inquiry to be created.'),
+                    Input::make('inquiry.message')->title('Message')
+                        ->placeholder('Enter inquiry message')
+                        ->help('The message of the inquiry.'),
+                    Input::make('inquiry.email')
+                        ->title('Email')
+                        ->placeholder('Enter email address')
+                        ->help('The email address of the inquiry.'),
+                    Input::make('inquiry.phone')
+                        ->title('Phone')
+                        ->placeholder('Enter phone number')
+                        ->help('The phone number of the inquiry.'),
+                    Input::make('inquiry.company_name')
+                        ->title('Company Name')
+                        ->placeholder('Enter company name')
+                        ->help('The name of the company associated with the inquiry.'),
+                    Input::make('inquiry.website')
+                        ->title('Website')
+                        ->placeholder('Enter website URL')
+                        ->help('The website URL of the company.'),
+                    Select::make('inquiry.type')
+                        ->options([
+                            'general' => 'General',
+                            'quote' => 'Quote',
+                            'support' => 'Support',
+                            'partnership' => 'Partnership'
+                        ])
+                        ->title('Type')
+                        ->help('The type of inquiry.'),
+                    Select::make('inquiry.status')
+                        ->options([
+                            'unread' => 'Unread',
+                            'read' => 'Read',
+                            'archived' => 'Archived',
+                            'in progress' => 'In Progress',
+                            'resolved' => 'Resolved',
+                            'closed' => 'Closed'
+                        ])
+                        ->title('Status')
+                        ->help('The status of the inquiry.'),
                 ]))
                     ->title('Create Inquiry')
                     ->applyButton('Add Inquiry'),
