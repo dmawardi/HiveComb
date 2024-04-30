@@ -12,7 +12,7 @@ use Orchid\Screen\Screen;
 use Orchid\Screen\TD;
 use Orchid\Support\Facades\Layout;
 
-class InquiryScreen extends Screen
+class InquiryListScreen extends Screen
 {
 
     /**
@@ -44,7 +44,6 @@ class InquiryScreen extends Screen
             'status' => $request->input('inquiry.status'),
             'message' => $request->input('inquiry.message'),
         ]);
-        dd($inquiry);
     }
 
     /**

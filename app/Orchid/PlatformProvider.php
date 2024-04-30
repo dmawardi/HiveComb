@@ -93,7 +93,7 @@ class PlatformProvider extends OrchidServiceProvider
             // Inquiries
             Menu::make('Inquiries')
                 ->icon('bag')
-                ->route('platform.inquiries')
+                ->route('platform.inquiries.list')
                 ->title('Tools')
         ];
     }

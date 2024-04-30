@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Models\Inquiry;
 use App\Orchid\Screens\Examples\ExampleActionsScreen;
 use App\Orchid\Screens\Examples\ExampleCardsScreen;
 use App\Orchid\Screens\Examples\ExampleChartsScreen;
@@ -11,8 +12,9 @@ use App\Orchid\Screens\Examples\ExampleGridScreen;
 use App\Orchid\Screens\Examples\ExampleLayoutsScreen;
 use App\Orchid\Screens\Examples\ExampleScreen;
 use App\Orchid\Screens\Examples\ExampleTextEditorsScreen;
-use App\Orchid\Screens\InquiryScreen;
+use App\Orchid\Screens\InquiryListScreen;
 use App\Orchid\Screens\PlatformScreen;
+use App\Orchid\Screens\PostEditScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
 use App\Orchid\Screens\User\UserEditScreen;
@@ -103,10 +105,18 @@ Route::screen('/examples/charts', ExampleChartsScreen::class)->name('platform.ex
 Route::screen('/examples/cards', ExampleCardsScreen::class)->name('platform.example.cards');
 
 //Route::screen('idea', Idea::class, 'platform.screens.idea');
-Route::screen('inquiries', InquiryScreen::class)
-    ->name('platform.inquiries')
+Route::screen('inquiries', InquiryListScreen::class)
+    ->name('platform.inquiries.list')
     ->breadcrumbs(function (Trail $trail){
         return $trail
             ->parent('platform.index')
             ->push('Inquiries');
+        });
+
+Route::screen('inquiries/{inquiry?}', PostEditScreen::class)
+    ->name('platform.inquiries.edit')
+    ->breadcrumbs(function (Trail $trail, $inquiry){
+        return $trail
+            ->parent('platform.inquiries.list')
+            ->push($inquiry->name, route('platform.inquiries.edit', $inquiry));
         });
