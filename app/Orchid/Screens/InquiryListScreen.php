@@ -5,6 +5,7 @@ namespace App\Orchid\Screens;
 use App\Models\Inquiry;
 use Illuminate\Http\Request;
 use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Select;
@@ -64,7 +65,7 @@ class InquiryListScreen extends Screen
          */
         public function query(): iterable
         {
-            $inquiries = Inquiry::latest()->get();
+            $inquiries = Inquiry::paginate();
             // dd($inquiries);
             return [
                 'inquiries' => $inquiries,
@@ -114,7 +115,11 @@ class InquiryListScreen extends Screen
             return [
                 // Table of inquiries
                 Layout::table('inquiries', [
-                    TD::make('name'),
+                    TD::make('name')
+                    ->render(function (Inquiry $inquiry) {
+                        return Link::make($inquiry->name)
+                            ->route('platform.inquiries.edit', $inquiry);
+                    }),
                     TD::make('email'),
                     TD::make('company_name'),
                     TD::make('type'),
