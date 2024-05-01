@@ -11,6 +11,7 @@ use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Screen;
 use Orchid\Screen\TD;
+use Orchid\Support\Color;
 use Orchid\Support\Facades\Layout;
 
 class InquiryListScreen extends Screen
@@ -45,6 +46,7 @@ class InquiryListScreen extends Screen
             'status' => $request->input('inquiry.status'),
             'message' => $request->input('inquiry.message'),
         ]);
+        return redirect()->route('platform.inquiries.list');
     }
 
     /**
@@ -55,6 +57,7 @@ class InquiryListScreen extends Screen
     public function delete(Inquiry $inquiry)
     {
         $inquiry->delete();
+        return redirect()->route('platform.inquiries.list');
     }
 
             
@@ -63,10 +66,29 @@ class InquiryListScreen extends Screen
          *
          * @return array
          */
-        public function query(): iterable
+        public function query(Request $request): iterable
         {
-            $inquiries = Inquiry::paginate();
-            // dd($inquiries);
+            // Build a query to fetch inquiries
+            $query = Inquiry::query();
+      
+            // If a search query is present, filter the inquiries
+            if ($request->filled('search')) {
+                // Validate the search term
+                $request->validate([
+                    'search' => 'required|string|max:255',
+                ]);
+                // Get the search term from the request
+                $search = $request->input('search');
+                $query->where('name', 'like', "%{$search}%")
+                ->orWhere('phone', 'like', "%{$search}%")
+                ->orWhere('email', 'like', "%{$search}%")
+                ->orWhere('company_name', 'like', "%{$search}%")
+                ->orWhere('website', 'like', "%{$search}%")
+                ->orWhere('message', 'like', "%{$search}%");
+            }
+            // Fetch paginated inquiries
+            $inquiries = $query->paginate();
+
             return [
                 'inquiries' => $inquiries,
             ];
@@ -105,6 +127,15 @@ class InquiryListScreen extends Screen
             ];
         }
 
+        // Used as button handler to reroute to the same page with search values saved
+        public function handleSearch(Request $request)
+        {
+            // Get the search term from the request
+            $searchTerm = $request->input('search');
+
+            // Redirect back to the screen with the search parameter to show results
+            return redirect()->route('platform.inquiries.list', ['search' => $searchTerm]);
+        }
         /**
          * The screen's layout elements.
          *
@@ -113,6 +144,18 @@ class InquiryListScreen extends Screen
         public function layout(): iterable
         {
             return [
+                // Search bar
+                
+                Layout::rows([
+                    Input::make('search')
+                        ->type('text')
+                        ->placeholder('Search...')
+                        ->value(request()->query('search')),
+                    Button::make('Search')
+                        ->method('handleSearch')  // Assuming you handle the request in a method called `search`
+                        ->type(Color::SUCCESS())
+                        ->icon('magnifier')
+                ]),
                 // Table of inquiries
                 Layout::table('inquiries', [
                     TD::make('name')

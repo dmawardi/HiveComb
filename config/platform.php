@@ -244,7 +244,9 @@ return [
      */
 
     'search' => [
-        // \App\Models\User::class
+        \App\Models\User::class,
+        \App\Models\Inquiry::class,
+        \App\Models\Project::class,
     ],
 
     /*
