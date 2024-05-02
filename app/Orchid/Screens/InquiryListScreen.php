@@ -86,6 +86,18 @@ class InquiryListScreen extends Screen
                 ->orWhere('website', 'like', "%{$search}%")
                 ->orWhere('message', 'like', "%{$search}%");
             }
+
+            // Apply filters
+            if ($request->filled('filter')) {
+                $filters = $request->input('filter');
+
+                if (!empty($filters['status'])) {
+                    $query->where('status', $filters['status']);
+                }
+                if (!empty($filters['type'])) {
+                    $query->where('type', $filters['type']);
+                }
+            }
             // Fetch paginated inquiries
             $inquiries = $query->paginate();
 
@@ -165,9 +177,25 @@ class InquiryListScreen extends Screen
                     }),
                     TD::make('email'),
                     TD::make('company_name'),
-                    TD::make('type'),
-                    TD::make('status'),
-
+                    TD::make('type')
+                    ->filter(TD::FILTER_SELECT, [
+                        'general' => 'General',
+                        'quote' => 'Quote',
+                        'support' => 'Support',
+                        'partnership' => 'Partnership',
+                    ])
+                    ->render(function (Inquiry $item) {
+                        return $item->type;
+                    }),
+                    TD::make('status')
+                    ->filter(TD::FILTER_SELECT, [
+                        'unread' => 'Unread',
+                        'read' => 'Read',
+                        'archived' => 'Archived',
+                        'in progress' => 'In Progress',
+                        'resolved' => 'Resolved',
+                        'closed' => 'Closed',
+                    ]),
                     // Actions column
                     TD::make('Actions')
                     ->alignRight()
