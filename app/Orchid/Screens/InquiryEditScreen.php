@@ -11,7 +11,7 @@ use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Alert;
 use Orchid\Support\Facades\Layout;
 
-class PostEditScreen extends Screen
+class InquiryEditScreen extends Screen
 {
     /**
      * @var Inquiry

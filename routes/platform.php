@@ -14,7 +14,9 @@ use App\Orchid\Screens\Examples\ExampleScreen;
 use App\Orchid\Screens\Examples\ExampleTextEditorsScreen;
 use App\Orchid\Screens\InquiryListScreen;
 use App\Orchid\Screens\PlatformScreen;
-use App\Orchid\Screens\PostEditScreen;
+use App\Orchid\Screens\InquiryEditScreen;
+use App\Orchid\Screens\ProjectEditScreen;
+use App\Orchid\Screens\ProjectListScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
 use App\Orchid\Screens\User\UserEditScreen;
@@ -113,10 +115,27 @@ Route::screen('inquiries', InquiryListScreen::class)
             ->push('Inquiries');
         });
 
-Route::screen('inquiries/{inquiry?}', PostEditScreen::class)
+Route::screen('inquiries/{inquiry?}', InquiryEditScreen::class)
     ->name('platform.inquiries.edit')
     ->breadcrumbs(function (Trail $trail, $inquiry){
         return $trail
             ->parent('platform.inquiries.list')
             ->push($inquiry->name, route('platform.inquiries.edit', $inquiry));
+        });
+
+
+Route::screen('projects/{project?}', ProjectEditScreen::class)
+    ->name('platform.projects.edit')
+    ->breadcrumbs(function (Trail $trail, $project){
+        return $trail
+            ->parent('platform.projects.list')
+            ->push($project->name, route('platform.projects.edit', $project));
+        });
+
+Route::screen('projects', ProjectListScreen::class)
+    ->name('platform.projects.list')
+    ->breadcrumbs(function (Trail $trail){
+        return $trail
+            ->parent('platform.index')
+            ->push('Projects');
         });
