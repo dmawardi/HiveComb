@@ -94,7 +94,11 @@ class PlatformProvider extends OrchidServiceProvider
             Menu::make('Inquiries')
                 ->icon('bag')
                 ->route('platform.inquiries.list')
-                ->title('Tools')
+                ->title('Schemas'),
+            Menu::make('Projects')
+                ->icon('bag')
+                ->route('platform.projects.list'),
+           
         ];
     }
 

@@ -123,6 +123,13 @@ Route::screen('inquiries/{inquiry?}', InquiryEditScreen::class)
             ->push($inquiry->name, route('platform.inquiries.edit', $inquiry));
         });
 
+Route::screen('projects', ProjectListScreen::class)
+    ->name('platform.projects.list')
+    ->breadcrumbs(function (Trail $trail){
+        return $trail
+            ->parent('platform.index')
+            ->push('Projects');
+        });
 
 Route::screen('projects/{project?}', ProjectEditScreen::class)
     ->name('platform.projects.edit')
@@ -130,12 +137,4 @@ Route::screen('projects/{project?}', ProjectEditScreen::class)
         return $trail
             ->parent('platform.projects.list')
             ->push($project->name, route('platform.projects.edit', $project));
-        });
-
-Route::screen('projects', ProjectListScreen::class)
-    ->name('platform.projects.list')
-    ->breadcrumbs(function (Trail $trail){
-        return $trail
-            ->parent('platform.index')
-            ->push('Projects');
         });

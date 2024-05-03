@@ -157,7 +157,6 @@ class InquiryListScreen extends Screen
         {
             return [
                 // Search bar
-                
                 Layout::rows([
                     Input::make('search')
                         ->type('text')

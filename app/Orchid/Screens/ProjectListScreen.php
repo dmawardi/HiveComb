@@ -2,7 +2,18 @@
 
 namespace App\Orchid\Screens;
 
+use App\Models\Project;
+use Illuminate\Http\Request;
+use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Actions\Link;
+use Orchid\Screen\Actions\ModalToggle;
+use Orchid\Screen\Fields\CheckBox;
+use Orchid\Screen\Fields\Input;
+use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Screen;
+use Orchid\Screen\TD;
+use Orchid\Support\Color;
+use Orchid\Support\Facades\Layout;
 
 class ProjectListScreen extends Screen
 {
@@ -11,9 +22,49 @@ class ProjectListScreen extends Screen
      *
      * @return array
      */
-    public function query(): iterable
-    {
-        return [];
+    public function query(Request $request): iterable
+    { // Build a query to fetch inquiries
+        $query = Project::query();
+  
+        // If a search query is present, filter the inquiries
+        if ($request->filled('search')) {
+            // Validate the search term
+            $request->validate([
+                'search' => 'required|string|max:255',
+            ]);
+            // Get the search term from the request
+            $search = $request->input('search');
+            $query->where('name', 'like', "%{$search}%")
+            ->orWhere('description', 'like', "%{$search}%")
+            ->orWhere('url', 'like', "%{$search}%")
+            ->orWhere('client_name', 'like', "%{$search}%")
+            ->orWhere('technologies', 'like', "%{$search}%");
+        }
+
+        // Apply filters
+        if ($request->filled('filter')) {
+            $filters = $request->input('filter');
+
+            if (!empty($filters['status'])) {
+                $query->whereIn('status', $filters['status']);
+            }
+            if (!empty($filters['featured'])) {
+                $featFilters = $filters['featured'];
+                $query->whereIn('featured', $featFilters);
+
+            }
+            // Handle completion_date range filter
+            if (!empty($filters['completion_date'])) {
+                $dates = $filters['completion_date'];
+                $query->whereBetween('completion_date', [$dates['start'], $dates['end']]);
+            }
+        }
+        // Fetch paginated inquiries
+        $projects = $query->paginate();
+
+        return [
+            'projects' => $projects,
+        ];
     }
 
     /**
@@ -23,8 +74,16 @@ class ProjectListScreen extends Screen
      */
     public function name(): ?string
     {
-        return 'ProjectListScreen';
+        return 'Projects';
     }
+
+     /**
+        * The description is displayed on the user's screen under the heading
+        */
+        public function description(): ?string
+        {
+            return 'Projects that were worked on by HiveComb';
+        }
 
     /**
      * The screen's action buttons.
@@ -33,7 +92,12 @@ class ProjectListScreen extends Screen
      */
     public function commandBar(): iterable
     {
-        return [];
+        return [
+            ModalToggle::make('Add Project')
+            ->modal('projectModal')
+            ->method('create')
+            ->icon('plus'),
+        ];
     }
 
     /**
@@ -43,6 +107,119 @@ class ProjectListScreen extends Screen
      */
     public function layout(): iterable
     {
-        return [];
+        return [
+            // Search bar
+            Layout::rows([
+                Input::make('search')
+                    ->type('text')
+                    ->placeholder('Search...')
+                    ->value(request()->query('search')),
+                Button::make('Search')
+                    ->method('handleSearch')  // Assuming you handle the request in a method called `search`
+                    ->type(Color::SUCCESS())
+                    ->icon('magnifier')
+            ]),
+            // Table of projects
+            Layout::table('projects', [
+                TD::make('name')
+                ->render(function (Project $item) {
+                    return Link::make($item->name)
+                        ->route('platform.projects.edit', $item);
+                }),
+                TD::make('url'),
+                TD::make('client_name'),
+                TD::make('status')
+                ->filter(TD::FILTER_SELECT, [
+                    'active' => 'Active',
+                    'inactive' => 'Inactive',
+                    'archived' => 'Archived',
+                    ])
+                    ->render(function (Project $item) {
+                        return $item->status;
+                    }),
+                TD::make('featured')
+                ->filter(TD::FILTER_SELECT, [
+                    '0' => 'No',
+                    '1' => 'Yes',
+                    ])
+                    ->render(function (Project $item) {
+                        return $item->featured? 'Yes' : 'No';
+                    }),
+                TD::make('completion_date', 'Completion Date')
+                ->filter(TD::FILTER_DATE_RANGE)
+                ->render(function (Project $item) {
+                    return $item->completion_date ? $item->completion_date->format('Y-m-d') : '';
+                }),
+                    
+                // Actions column
+                TD::make('Actions')
+                ->alignRight()
+                ->render(function (Project $item) {
+                    return Button::make('Delete Project')
+                        ->confirm('After deleting, the project will be gone forever.')
+                        ->method('delete', ['project' => $item->id]);
+                }),
+            ]),
+
+            // Modal form to create a new project
+            Layout::modal('projectModal', Layout::rows([
+                Input::make('project.name')
+                    ->title('Name')
+                    ->placeholder('Enter name for project')
+                    ->help('The name of the project to be created.'),
+                Input::make('project.url')
+                    ->title('URL')
+                    ->placeholder('Enter URL')
+                    ->help('The URL of the project.'),
+                Input::make('project.client_name')
+                    ->title('Client Name')
+                    ->placeholder('Enter client name')
+                    ->help('The client name of the project.'),
+                Input::make('project.completion_date')
+                    ->title('Completion Date')
+                    ->placeholder('Enter completion date')
+                    ->help('The completion date of the project.'),
+                Input::make('project.technologies')
+                    ->title('Technologies')
+                    ->placeholder('Enter technologies')
+                    ->help('The technologies used in the project.'),
+                Input::make('project.thumbnail_image')
+                    ->title('Thumbnail Image')
+                    ->placeholder('Enter thumbnail image')
+                    ->help('The thumbnail image of the project.'),
+                Input::make('project.gallery_images')
+                    ->title('Gallery Images')
+                    ->placeholder('Enter gallery images')
+                    ->help('The gallery images of the project.'),
+                Select::make('project.status')
+                    ->options([
+                        'active' => 'Active',
+                        'inactive' => 'Inactive',
+                        'archived' => 'Archived',
+                    ])
+                    ->title('Type')
+                    ->help('The status of the project.'),
+                CheckBox::make('project.featured')
+                    ->title('Featured')
+                    ->placeholder('Is this project featured?')
+                    ->help('Whether the project is featured or not.'),
+            ]))
+                ->title('Create Project')
+                ->applyButton('Add Project'),
+        ];
     }
+
+
+    /**
+     * Search button handler
+     */
+     // Used as button handler to reroute to the same page with search values saved
+     public function handleSearch(Request $request)
+     {
+         // Get the search term from the request
+         $searchTerm = $request->input('search');
+
+         // Redirect back to the screen with the search parameter to show results
+         return redirect()->route('platform.projects.list', ['search' => $searchTerm]);
+     }
 }
