@@ -61,7 +61,7 @@ class InquiryEditScreen extends Screen
             'message' => $request->input('inquiry.message'),
         ])->save();
 
-        Alert::info('You have successfully edited a post.');
+        Alert::info('You have successfully edited an inquiry.');
 
         return redirect()->route('platform.inquiries.list');
     }

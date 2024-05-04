@@ -12,6 +12,7 @@ use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Screen;
 use Orchid\Screen\TD;
 use Orchid\Support\Color;
+use Orchid\Support\Facades\Alert;
 use Orchid\Support\Facades\Layout;
 
 class InquiryListScreen extends Screen
@@ -46,6 +47,8 @@ class InquiryListScreen extends Screen
             'status' => $request->input('inquiry.status'),
             'message' => $request->input('inquiry.message'),
         ]);
+
+        Alert::info('You have successfully created an inquiry.');
         return redirect()->route('platform.inquiries.list');
     }
 
@@ -57,6 +60,7 @@ class InquiryListScreen extends Screen
     public function delete(Inquiry $inquiry)
     {
         $inquiry->delete();
+        Alert::info('You have successfully deleted project: ' . $inquiry->name);
         return redirect()->route('platform.inquiries.list');
     }
 

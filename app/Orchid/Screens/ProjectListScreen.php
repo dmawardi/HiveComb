@@ -8,11 +8,13 @@ use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Fields\CheckBox;
+use Orchid\Screen\Fields\DateTimer;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Screen;
 use Orchid\Screen\TD;
 use Orchid\Support\Color;
+use Orchid\Support\Facades\Alert;
 use Orchid\Support\Facades\Layout;
 
 class ProjectListScreen extends Screen
@@ -175,10 +177,11 @@ class ProjectListScreen extends Screen
                     ->title('Client Name')
                     ->placeholder('Enter client name')
                     ->help('The client name of the project.'),
-                Input::make('project.completion_date')
+                DateTimer::make('project.completion_date')
                     ->title('Completion Date')
-                    ->placeholder('Enter completion date')
-                    ->help('The completion date of the project.'),
+                    ->placeholder('Click to select a date')
+                    ->help('The completion date of the project.')
+                    ->format('Y-m-d'),  // You can change the format as needed
                 Input::make('project.technologies')
                     ->title('Technologies')
                     ->placeholder('Enter technologies')
@@ -209,6 +212,63 @@ class ProjectListScreen extends Screen
         ];
     }
 
+  /**
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return void
+     */
+    public function create(Request $request)
+    {
+        // Get the 'project' array from the request, or default to an empty array if not set
+        $projectData = $request->input('project', []);
+
+        // Update the 'featured' key within the 'project' array
+        $projectData['featured'] = $request->has('project.featured');
+
+        // Merge the modified 'project' array back into the request
+        $request->merge(['project' => $projectData]);
+
+        // Validate form data, save task to database, etc.
+        $request->validate([
+            'project.name' => 'required|max:255',
+            'project.url' => 'nullable|url',
+            'project.client_name' => 'nullable|max:255',
+            'project.completion_date' => 'nullable|date',
+            'project.technologies' => 'nullable|max:255',
+            'project.thumbnail_image' => 'nullable|url',
+            'project.gallery_images' => 'nullable|url',
+            'project.status' => 'required|in:active,inactive,archived',
+            'project.featured' => 'required|boolean',
+        ]);
+
+        $project = Project::create([
+            'name' => $request->input('project.name'),
+            'url' => $request->input('project.url'),
+            'client_name' => $request->input('project.client_name'),
+            'completion_date' => $request->input('project.completion_date'),
+            'technologies' => $request->input('project.technologies'),
+            'thumbnail_image' => $request->input('project.thumbnail_image'),
+            'gallery_images' => $request->input('project.gallery_images'),
+            'status' => $request->input('project.status'),
+            'featured' => $request->boolean('project.featured'),
+        ]);
+
+        Alert::info('You have successfully created a project.');
+
+        return redirect()->route('platform.projects.list');
+    }
+
+    /**
+     * @param Project $project
+     *
+     * @return void
+     */
+    public function delete(Project $project)
+    {
+        $project->delete();
+        Alert::info('You have successfully deleted a project: ' . $project->name);
+        return redirect()->route('platform.projects.list');
+    }
 
     /**
      * Search button handler
