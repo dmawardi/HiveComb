@@ -1,11 +1,11 @@
 <section id="services" class="py-16 bg-gray-200">
-    <div class="container mx-auto px-4 relative z-50">
+    <div class="container mx-auto px-4 relative z-40">
         <h2 class="text-3xl font-bold text-center text-violet-800">Services Offered</h2>
         <p class="text-lg text-center text-gray-600 mt-4">Our comprehensive suite of services is designed to take
             your
             digital presence to the next level.</p>
 
-        <div class="flex flex-wrap items-center justify-center mt-8 relative z-50">
+        <div class="flex flex-wrap items-center justify-center mt-8 relative z-40">
             <!-- Web Development -->
             <div class="w-full md:w-1/2 lg:w-1/4 p-4">
                 <div class="flex flex-col items-center text-center">
