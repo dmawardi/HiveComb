@@ -24,7 +24,6 @@ class ProjectFactory extends Factory
             'completion_date' => $this->faker->date,
             'technologies' => $this->faker->words(3, true),
             'thumbnail_image' => $this->faker->imageUrl,
-            'gallery_images' => $this->faker->imageUrl,
             'status' => $this->faker->randomElement(['active', 'inactive', 'archived']),
             'featured' => $this->faker->boolean,
         ];

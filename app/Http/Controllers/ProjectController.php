@@ -44,7 +44,6 @@ class ProjectController extends Controller
             'completion_date' => 'required|date',
             'technologies' => 'required|string',
             'thumbnail_image' => 'required|image',
-            'gallery_images' => 'required|url',
             'status' => 'required|in:active,inactive,archived',
             'featured' => 'required|boolean',
         ]);
@@ -97,7 +96,6 @@ class ProjectController extends Controller
             'completion_date' => 'sometimes|date',
             'technologies' => 'sometimes|string',
             'thumbnail_image' => 'sometimes|url',
-            'gallery_images' => 'sometimes|url',
             'status' => 'sometimes|in:active,inactive,archived',
             'featured' => 'sometimes|boolean',
         ]);

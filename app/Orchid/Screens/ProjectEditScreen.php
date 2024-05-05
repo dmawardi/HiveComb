@@ -27,8 +27,6 @@ class ProjectEditScreen extends Screen
     public function query(Project $project): iterable
     {
         $file = Attachment::where('id', $project->thumbnail_image)->first();
-        // $project->thumbnail_image = $file;
-        // dd($project);
         return [
             'project' => $project,
             'thumbnail_image' => $file,
@@ -60,6 +58,26 @@ class ProjectEditScreen extends Screen
      */
     public function createOrUpdate(Request $request)
     {
+        // Get the 'project' array from the request, or default to an empty array if not set
+        $projectData = $request->input('project', []);
+
+        // Update the 'featured' key within the 'project' array
+        $projectData['featured'] = $request->has('project.featured');
+
+         // Delete the old thumbnail image if none found in the request
+         if ($request->has('project.thumbnail_image') && $request->input('project.thumbnail_image') === null) {
+            // Find the attached image and delete
+            $attachment = Attachment::find($this->project->thumbnail_image);
+            if ($attachment) {
+                $attachment->delete();
+            }
+            // Set the thumbnail image to null
+            $projectData['thumbnail_image'] = null;
+        }
+
+        // Merge the modified 'project' array back into the request
+        $request->merge(['project' => $projectData]);
+
          // Validate form data, save task to database, etc.
          $request->validate([
             'project.name' => 'required|max:255',
@@ -74,6 +92,13 @@ class ProjectEditScreen extends Screen
             'project.featured' => 'required|boolean',
         ]);
 
+        // Handle file uploads
+        if ($request->hasFile('project.thumbnail_image')) {
+            $baseFilePath = $request->file('project.thumbnail_image')->store('public');
+            $projectData['thumbnail_image'] = $baseFilePath;
+        }
+       
+
         $this->project->fill([
             'name' => $request->input('project.name'),
             'description' => $request->input('project.description'),
@@ -81,7 +106,7 @@ class ProjectEditScreen extends Screen
             'client_name' => $request->input('project.client_name'),
             'completion_date' => $request->input('project.completion_date'),
             'technologies' => $request->input('project.technologies'),
-            'thumbnail_image' => $request->input('project.thumbnail_image')[0],
+            'thumbnail_image' => $request->input('project.thumbnail_image'),
             'gallery_images' => $request->input('project.gallery_images'),
             'status' => $request->input('project.status'),
             'featured' => $request->input('project.featured'),
@@ -97,6 +122,13 @@ class ProjectEditScreen extends Screen
      */
     public function remove()
     {
+        // Grab file from thumbnail image and delete it
+        $attachment = Attachment::find($this->project->thumbnail_image);
+        if ($attachment) {
+            $attachment->delete();
+        }
+
+        // Delete the project
         $this->project->delete();
 
         Alert::info('You have successfully deleted the project.');
@@ -172,13 +204,8 @@ class ProjectEditScreen extends Screen
                 Upload::make('project.thumbnail_image')
                     ->title('Thumbnail Image')
                     ->placeholder('Thumbnail image')
-                    ->help('Enter the thumbnail image of the project')
+                    ->help('Upload the thumbnail image of the project')
                     ->value(fn() => $this->project['thumbnail_image']),
-                Input::make('project.gallery_images')
-                    ->title('Gallery Images')
-                    ->placeholder('Gallery images')
-                    ->help('Enter the gallery images of the project')
-                    ->value($this->project->gallery_images),
                 Select::make('project.status')
                     ->title('Status')
                     ->options([

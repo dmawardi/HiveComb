@@ -4,6 +4,7 @@ namespace App\Orchid\Screens;
 
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Orchid\Attachment\Models\Attachment;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Actions\ModalToggle;
@@ -192,10 +193,6 @@ class ProjectListScreen extends Screen
                     ->acceptedFiles('image/*') // Specify accepted file types
                     ->maxFiles(1) // Limit the number of files that can be uploaded
                     ->help('Upload the thumbnail image of the project.'),
-                Input::make('project.gallery_images')
-                    ->title('Gallery Images')
-                    ->placeholder('Enter gallery images')
-                    ->help('The gallery images of the project.'),
                 Select::make('project.status')
                     ->options([
                         'active' => 'Active',
@@ -242,8 +239,6 @@ class ProjectListScreen extends Screen
             'project.status' => 'required|in:active,inactive,archived',
             'project.featured' => 'required|boolean',
         ]);
-        // dd($projectData);
-
 
         // Handle file uploads
         if ($request->hasFile('project.thumbnail_image')) {
@@ -259,7 +254,6 @@ class ProjectListScreen extends Screen
             'completion_date' => $request->input('project.completion_date'),
             'technologies' => $request->input('project.technologies'),
             'thumbnail_image' => $request->input('project.thumbnail_image')[0],
-            'gallery_images' => $request->input('project.gallery_images'),
             'status' => $request->input('project.status'),
             'featured' => $request->boolean('project.featured'),
         ]);
@@ -276,6 +270,12 @@ class ProjectListScreen extends Screen
      */
     public function delete(Project $project)
     {
+        // Grab file from thumbnail image and delete it
+        $attachment = Attachment::find($project->thumbnail_image);
+        if ($attachment) {
+            $attachment->delete();
+        }
+        // Delete the project
         $project->delete();
         Alert::info('You have successfully deleted a project: ' . $project->name);
         return redirect()->route('platform.projects.list');

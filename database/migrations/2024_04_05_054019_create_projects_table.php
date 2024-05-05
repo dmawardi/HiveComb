@@ -21,7 +21,6 @@ return new class extends Migration
             $table->date('completion_date')->nullable();
             $table->text('technologies')->nullable();
             $table->string('thumbnail_image')->nullable();
-            $table->text('gallery_images')->nullable();
             $table->enum('status', ['active', 'inactive', 'archived'])->default('active');
             $table->boolean('featured')->default(false);
         });
