@@ -36,20 +36,25 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $attributes = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'url' => 'required|url',
             'client_name' => 'required|string|max:255',
             'completion_date' => 'required|date',
             'technologies' => 'required|string',
-            'thumbnail_image' => 'required|url',
+            'thumbnail_image' => 'required|image',
             'gallery_images' => 'required|url',
             'status' => 'required|in:active,inactive,archived',
             'featured' => 'required|boolean',
         ]);
+        // Store the image in the public directory: thumbnails
+        $baseFilePath = request()->file('thumbnail')->store('thumbnails');
+        // Update the thumbnail path in the attributes
+        $attributes['thumbnail'] = $baseFilePath;
+
         // Create a new project
-        Project::create($request->all());
+        Project::create($attributes);
         return redirect()->route('projects.index')->with('success', 'Project created successfully.');;
     }
 

@@ -4,9 +4,11 @@ namespace App\Orchid\Screens;
 
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Orchid\Attachment\Models\Attachment;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Select;
+use Orchid\Screen\Fields\Upload;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Alert;
 use Orchid\Support\Facades\Layout;
@@ -24,8 +26,12 @@ class ProjectEditScreen extends Screen
      */
     public function query(Project $project): iterable
     {
+        $file = Attachment::where('id', $project->thumbnail_image)->first();
+        // $project->thumbnail_image = $file;
+        // dd($project);
         return [
             'project' => $project,
+            'thumbnail_image' => $file,
         ];
     }
 
@@ -75,7 +81,7 @@ class ProjectEditScreen extends Screen
             'client_name' => $request->input('project.client_name'),
             'completion_date' => $request->input('project.completion_date'),
             'technologies' => $request->input('project.technologies'),
-            'thumbnail_image' => $request->input('project.thumbnail_image'),
+            'thumbnail_image' => $request->input('project.thumbnail_image')[0],
             'gallery_images' => $request->input('project.gallery_images'),
             'status' => $request->input('project.status'),
             'featured' => $request->input('project.featured'),
@@ -163,11 +169,11 @@ class ProjectEditScreen extends Screen
                     ->placeholder('Technologies used')
                     ->help('Enter the technologies used in the project')
                     ->value($this->project->technologies),
-                Input::make('project.thumbnail_image')
+                Upload::make('project.thumbnail_image')
                     ->title('Thumbnail Image')
                     ->placeholder('Thumbnail image')
                     ->help('Enter the thumbnail image of the project')
-                    ->value($this->project->thumbnail_image),
+                    ->value(fn() => $this->project['thumbnail_image']),
                 Input::make('project.gallery_images')
                     ->title('Gallery Images')
                     ->placeholder('Gallery images')

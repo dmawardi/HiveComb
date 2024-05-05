@@ -11,6 +11,7 @@ use Orchid\Screen\Fields\CheckBox;
 use Orchid\Screen\Fields\DateTimer;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Select;
+use Orchid\Screen\Fields\Upload;
 use Orchid\Screen\Screen;
 use Orchid\Screen\TD;
 use Orchid\Support\Color;
@@ -186,10 +187,11 @@ class ProjectListScreen extends Screen
                     ->title('Technologies')
                     ->placeholder('Enter technologies')
                     ->help('The technologies used in the project.'),
-                Input::make('project.thumbnail_image')
+                Upload::make('project.thumbnail_image')
                     ->title('Thumbnail Image')
-                    ->placeholder('Enter thumbnail image')
-                    ->help('The thumbnail image of the project.'),
+                    ->acceptedFiles('image/*') // Specify accepted file types
+                    ->maxFiles(1) // Limit the number of files that can be uploaded
+                    ->help('Upload the thumbnail image of the project.'),
                 Input::make('project.gallery_images')
                     ->title('Gallery Images')
                     ->placeholder('Enter gallery images')
@@ -235,11 +237,20 @@ class ProjectListScreen extends Screen
             'project.client_name' => 'nullable|max:255',
             'project.completion_date' => 'nullable|date',
             'project.technologies' => 'nullable|max:255',
-            'project.thumbnail_image' => 'nullable|url',
+            'project.thumbnail_image' => 'nullable',
             'project.gallery_images' => 'nullable|url',
             'project.status' => 'required|in:active,inactive,archived',
             'project.featured' => 'required|boolean',
         ]);
+        // dd($projectData);
+
+
+        // Handle file uploads
+        if ($request->hasFile('project.thumbnail_image')) {
+            $baseFilePath = $request->file('project.thumbnail_image')->store('public');
+            $projectData['thumbnail_image'] = $baseFilePath;
+        }
+
 
         $project = Project::create([
             'name' => $request->input('project.name'),
@@ -247,7 +258,7 @@ class ProjectListScreen extends Screen
             'client_name' => $request->input('project.client_name'),
             'completion_date' => $request->input('project.completion_date'),
             'technologies' => $request->input('project.technologies'),
-            'thumbnail_image' => $request->input('project.thumbnail_image'),
+            'thumbnail_image' => $request->input('project.thumbnail_image')[0],
             'gallery_images' => $request->input('project.gallery_images'),
             'status' => $request->input('project.status'),
             'featured' => $request->boolean('project.featured'),
