@@ -39,13 +39,13 @@
                 </div>
             </div>
 
-            <!-- eCommerce Solutions -->
+            <!-- Enterprise Solutions -->
             <div class="w-full md:w-1/2 lg:w-1/4 p-4">
                 <div class="flex flex-col items-center text-center">
-                    <i class="fa-solid fa-cart-shopping fa-5x mb-4 text-violet-400"></i>
-                    <h3 class="text-xl font-semibold text-violet-800">eCommerce Solutions</h3>
-                    <p class="text-gray-600 mt-2">Comprehensive eCommerce services to launch, manage, and grow your
-                        online store.</p>
+                    <i class="fa-solid fa-briefcase fa-5x mb-4 text-violet-400"></i>
+                    <h3 class="text-xl font-semibold text-violet-800">Enterprise Solutions</h3>
+                    <p class="text-gray-600 mt-2">Enterprise focused to launch, manage, and grow your
+                        online solution.</p>
                 </div>
             </div>
         </div>
