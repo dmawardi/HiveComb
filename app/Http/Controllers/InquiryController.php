@@ -53,7 +53,7 @@ class InquiryController extends Controller
         $inquiry = Inquiry::create($request->all());
 
         // Send an email
-        Mail::to(env('ADMIN_EMAIL'))->send(new InquiryReceived($inquiry));
+        Mail::to(env('ADMIN_EMAIL'))->queue(new InquiryReceived($inquiry));
 
         return redirect()->route('inquiries.create')->with('success', 'Inquiry created successfully.');;
     }
