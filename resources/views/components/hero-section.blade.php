@@ -10,9 +10,9 @@
             <p class="text-2xl mt-4 text-bold text-gray-800">
                 Innovative web solutions tailored to bring your brand to life.
             </p>
-            <a href="/projects"
+            <a href="/contact"
                 class="mt-8 inline-block bg-yellow-400 text-gray-800 font-bold py-3 px-6 rounded-lg transform transition-all hover:scale-110">
-                See Our Work
+                Get in Touch
             </a>
         </div>
     </div>
