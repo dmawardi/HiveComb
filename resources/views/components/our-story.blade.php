@@ -3,9 +3,7 @@
         <h2 class="text-3xl font-bold text-center mb-8">Our Story</h2>
         <div class="max-w-4xl mx-auto">
             <p class="text-lg text-gray-600 mb-6">
-                HiveComb's journey began with a curious data scientist, Dannar Mawardi, whose passion for technology and
-                problem-solving led him to explore the realms of web application development. With a vision to transform
-                digital experiences, Dannar founded HiveComb to be a beacon of innovation in the tech industry.
+            HiveComb was born from a deep passion for technology and the drive to solve complex problems. What started as a bold vision in a modest home office has evolved into a leading force in web application development, committed to transforming digital experiences.
             </p>
 
             <!-- Timeline or Milestone 1 -->
@@ -13,9 +11,7 @@
                 <div class="mb-4">
                     <h3 class="text-xl font-semibold text-gray-800">The Beginning</h3>
                     <p class="text-gray-600 mt-2">
-                        Starting in a small home office, Dannar set out to build a company that focused on crafting
-                        seamless and impactful digital solutions. The early days were marked by long nights, endless
-                        learning, and the first successful project that set the tone for HiveComb's future.
+                    In the early days, our founder embarked on a journey fueled by curiosity and a relentless pursuit of innovation. Through countless hours of dedication and learning, HiveComb began to shape a future defined by excellence in the tech industry.
                     </p>
                 </div>
             </div>
@@ -27,8 +23,7 @@
             </div>
 
             <p class="text-lg text-gray-600">
-                Today, HiveComb stands as a testament to the power of perseverance, innovation, and the relentless
-                pursuit of excellence. Join us as we continue to push the boundaries of what's possible.
+            HiveComb stands as a beacon of innovation, embodying the power of perseverance and a commitment to pushing the boundaries of what's possible. We invite you to be part of our journey as we continue to redefine the future of digital solutions.
             </p>
         </div>
     </div>
