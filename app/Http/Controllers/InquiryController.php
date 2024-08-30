@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\InquiryReceived;
 use App\Models\Inquiry;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class InquiryController extends Controller
 {
@@ -48,8 +50,12 @@ class InquiryController extends Controller
         // Set the status to unread
         $request->merge(['status' => 'unread']);
         // Create a new inquiry
-        Inquiry::create($request->all());
-        return redirect()->route('contact')->with('success', 'Inquiry created successfully.');;
+        $inquiry = Inquiry::create($request->all());
+
+        // Send an email
+        Mail::to(env('ADMIN_EMAIL'))->send(new InquiryReceived($inquiry));
+
+        return redirect()->route('inquiries.create')->with('success', 'Inquiry created successfully.');;
     }
 
     /**
