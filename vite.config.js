@@ -10,10 +10,7 @@ export default defineConfig({
         }),
     ],
     server: {
-        https: {
-            key: fs.readFileSync("/etc/ssl/caddy/localhost-key.pem"), // Update to match the mounted path
-            cert: fs.readFileSync("/etc/ssl/caddy/localhost.pem"),
-        },
+        https: true, // Ensure Vite's development server uses HTTPS
         hmr: {
             host: "localhost",
         },
