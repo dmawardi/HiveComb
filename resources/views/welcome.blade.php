@@ -1,4 +1,7 @@
 <x-layout>
+    <x-slot name="title">HiveComb - Expert Web Development Agency</x-slot>
+    <meta name="description" 
+    content="HiveComb is a web development agency that crafts modern, high-performance websites tailored to your business needs. Elevate your online presence with our expertise." />
     <x-honeycomb-float>
         <x-hero-section></x-hero-section>
         <x-about-section></x-about-section>

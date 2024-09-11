@@ -1,4 +1,7 @@
 <x-layout>
+    <x-slot name="title">About HiveComb - Your Partner in Web Development Excellence</x-slot>
+    <meta name="description" 
+    content="Learn about HiveComb, a web development agency dedicated to delivering innovative and effective solutions for your business. Discover our mission & values." />
     <x-honeycomb-float>
         <x-about-header></x-about-header>
         <x-our-story></x-our-story>

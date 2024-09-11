@@ -1,5 +1,7 @@
 <x-layout>
-    <x-slot name="title">Contact Us</x-slot>
+    <x-slot name="title">Contact HiveComb - Get Started on Your Web Development Journey</x-slot>
+    <meta name="description" 
+    content="Ready to bring your project to life? Contact HiveComb, your trusted web development partner. Let's discuss how we can help you achieve your online goals." />
     <x-honeycomb-float>
 
         <div class="w-10/12 mx-auto relative z-40 bg-gray-600 rounded-md shadow-lg">

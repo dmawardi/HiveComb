@@ -1,5 +1,7 @@
 <x-layout>
-    <x-slot name="title">Projects</x-slot>
+    <x-slot name="title">HiveComb Projects - Showcasing Our Web Development Successes</x-slot>
+    <meta name="description" 
+    content="Explore HiveComb's portfolio of successful web development projects. See how we've helped businesses achieve their digital goals with custom, scalable solutions." />
     <x-honeycomb-float>
 
         <div class="w-10/12 mx-auto relative z-40 bg-gray-600 rounded-md shadow-lg flex flex-col mt-10 px-4">
